@@ -19,7 +19,7 @@ export function AppLoader({ isLoading, error, onRetry, onOfflineMode, children }
     if (isLoading) {
       const timeout = setTimeout(() => {
         setLoadingTimeout(true);
-      }, 8000); // 8 seconds timeout
+  }, 8000); // ...existing code...
 
       return () => clearTimeout(timeout);
     } else {
@@ -27,7 +27,7 @@ export function AppLoader({ isLoading, error, onRetry, onOfflineMode, children }
     }
   }, [isLoading]);
 
-  // Show timeout or error state
+  // ...existing code...
   if (loadingTimeout || error) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -90,7 +90,7 @@ export function AppLoader({ isLoading, error, onRetry, onOfflineMode, children }
     );
   }
 
-  // Show loading spinner
+  // ...existing code...
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">

@@ -37,7 +37,7 @@ export function useStockMovements() {
       setError(null);
       const result = await StockMovementService.registerMovement(formData);
       
-      // Actualizar la lista de movimientos local
+  // ...existing code...
       setMovements(prev => [result.movement, ...prev]);
       
       return result;

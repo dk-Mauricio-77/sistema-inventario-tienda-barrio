@@ -20,19 +20,14 @@ const getHeaders = (requireAuth = true) => {
     const session = AuthService.getCurrentSession();
     if (session?.accessToken) {
       headers["Authorization"] = `Bearer ${session.accessToken}`;
-      console.log(
-        "InventoryService: Using authenticated request with token:",
-        session.accessToken.substring(0, 20) + "...",
-      );
+  // ...existing code...
     } else {
-      console.warn(
-        "InventoryService: No valid session for authenticated request",
-      );
+  // ...existing code...
       headers["Authorization"] = `Bearer ${publicAnonKey}`;
     }
   } else {
     headers["Authorization"] = `Bearer ${publicAnonKey}`;
-    console.log("InventoryService: Using public request");
+  // ...existing code...
   }
 
   return headers;
@@ -50,7 +45,7 @@ const fetchWithTimeout = async (
   );
 
   try {
-    console.log(`InventoryService: Making request to: ${url}`);
+  // ...existing code...
 
     const response = await fetch(url, {
       ...options,
@@ -58,13 +53,11 @@ const fetchWithTimeout = async (
     });
     clearTimeout(timeoutId);
 
-    console.log(
-      `InventoryService: Response status: ${response.status}`,
-    );
+  // ...existing code...
     return response;
   } catch (error) {
     clearTimeout(timeoutId);
-    console.error("InventoryService: Fetch error:", error);
+  // ...existing code...
 
     if (error.name === "AbortError") {
       throw new Error(
@@ -86,39 +79,30 @@ const handleResponse = async (response: Response) => {
     const text = await response.text();
     data = text ? JSON.parse(text) : {};
   } catch (parseError) {
-    console.error(
-      "InventoryService: JSON parse error:",
-      parseError,
-    );
+  // ...existing code...
     throw new Error(
       `Error del servidor: respuesta inválida (${response.status})`,
     );
   }
 
   if (!response.ok) {
-    console.error("InventoryService: API Error:", {
-      status: response.status,
-      statusText: response.statusText,
-      data,
-    });
+  // ...existing code...
 
     // Handle authentication errors specifically
     if (response.status === 401) {
-      console.warn(
-        "InventoryService: Authentication failed, trying session refresh",
-      );
+  // ...existing code...
       
       // Try to refresh session first before logging out
       try {
         const refreshedSession = await AuthService.refreshSession();
         if (refreshedSession) {
-          console.log("InventoryService: Session refreshed, user can retry");
+          // ...existing code...
           throw new Error(
             "Sesión renovada. Por favor intenta la operación nuevamente.",
           );
         }
       } catch (refreshError) {
-        console.warn("InventoryService: Session refresh failed");
+  // ...existing code...
       }
       
       // Only logout if refresh failed
@@ -164,18 +148,12 @@ export class InventoryService {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(
-          "InventoryService: Health check successful:",
-          data,
-        );
+  // ...existing code...
         return true;
       }
       return false;
     } catch (error) {
-      console.error(
-        "InventoryService: Health check failed:",
-        error,
-      );
+  // ...existing code...
       return false;
     }
   }
@@ -183,7 +161,7 @@ export class InventoryService {
   // Products (no auth required for GET)
   static async getProducts(): Promise<Product[]> {
     try {
-      console.log("InventoryService: Fetching products...");
+  // ...existing code...
 
       const response = await fetchWithTimeout(
         `${BASE_URL}/products`,
@@ -195,16 +173,10 @@ export class InventoryService {
       );
       const data = await handleResponse(response);
 
-      console.log(
-        "InventoryService: Products fetched successfully:",
-        data.products?.length || 0,
-      );
+  // ...existing code...
       return data.products || [];
     } catch (error) {
-      console.error(
-        "InventoryService: Error fetching products:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -222,10 +194,7 @@ export class InventoryService {
       const data = await handleResponse(response);
       return data.product;
     } catch (error) {
-      console.error(
-        "InventoryService: Error fetching product:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -234,10 +203,7 @@ export class InventoryService {
     productData: ProductFormData,
   ): Promise<Product> {
     try {
-      console.log(
-        "InventoryService: Creating product:",
-        productData.name,
-      );
+  // ...existing code...
       const response = await fetchWithTimeout(
         `${BASE_URL}/products`,
         {
@@ -249,15 +215,10 @@ export class InventoryService {
       );
 
       const data = await handleResponse(response);
-      console.log(
-        "InventoryService: Product created successfully",
-      );
+  // ...existing code...
       return data.product;
     } catch (error) {
-      console.error(
-        "InventoryService: Error creating product:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -267,7 +228,7 @@ export class InventoryService {
     updates: Partial<ProductFormData>,
   ): Promise<Product> {
     try {
-      console.log("InventoryService: Updating product:", id);
+  // ...existing code...
       const response = await fetchWithTimeout(
         `${BASE_URL}/products/${id}`,
         {
@@ -279,22 +240,17 @@ export class InventoryService {
       );
 
       const data = await handleResponse(response);
-      console.log(
-        "InventoryService: Product updated successfully",
-      );
+  // ...existing code...
       return data.product;
     } catch (error) {
-      console.error(
-        "InventoryService: Error updating product:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
 
   static async deleteProduct(id: string): Promise<void> {
     try {
-      console.log("InventoryService: Deleting product:", id);
+  // ...existing code...
       const response = await fetchWithTimeout(
         `${BASE_URL}/products/${id}`,
         {
@@ -305,14 +261,9 @@ export class InventoryService {
       );
 
       await handleResponse(response);
-      console.log(
-        "InventoryService: Product deleted successfully",
-      );
+  // ...existing code...
     } catch (error) {
-      console.error(
-        "InventoryService: Error deleting product:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -322,12 +273,7 @@ export class InventoryService {
     quantity: number,
   ): Promise<Product> {
     try {
-      console.log(
-        "InventoryService: Updating stock for product:",
-        id,
-        "quantity:",
-        quantity,
-      );
+  // ...existing code...
       const response = await fetchWithTimeout(
         `${BASE_URL}/products/${id}/stock`,
         {
@@ -339,15 +285,10 @@ export class InventoryService {
       );
 
       const data = await handleResponse(response);
-      console.log(
-        "InventoryService: Stock updated successfully",
-      );
+  // ...existing code...
       return data.product;
     } catch (error) {
-      console.error(
-        "InventoryService: Error updating stock:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -365,16 +306,10 @@ export class InventoryService {
       );
       const data = await handleResponse(response);
 
-      console.log(
-        "InventoryService: Categories fetched successfully:",
-        data.categories?.length || 0,
-      );
+  // ...existing code...
       return data.categories || [];
     } catch (error) {
-      console.error(
-        "InventoryService: Error fetching categories:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -392,15 +327,9 @@ export class InventoryService {
       );
 
       const data = await handleResponse(response);
-      console.log(
-        "InventoryService: Sample data initialized:",
-        data.message,
-      );
+  // ...existing code...
     } catch (error) {
-      console.error(
-        "InventoryService: Error initializing sample data:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -408,7 +337,7 @@ export class InventoryService {
   // Create demo users (no auth required)
   static async createDemoUsers(): Promise<any> {
     try {
-      console.log("InventoryService: Creating demo users...");
+  // ...existing code...
       const response = await fetchWithTimeout(
         `${BASE_URL}/create-demo-users`,
         {
@@ -419,13 +348,10 @@ export class InventoryService {
       );
 
       const data = await handleResponse(response);
-      console.log("InventoryService: Demo users result:", data);
+  // ...existing code...
       return data;
     } catch (error) {
-      console.error(
-        "InventoryService: Error creating demo users:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -433,7 +359,7 @@ export class InventoryService {
   // Force create demo users (more aggressive approach)
   static async forceCreateDemoUsers(): Promise<any> {
     try {
-      console.log("InventoryService: Force creating demo users...");
+  // ...existing code...
       const response = await fetchWithTimeout(
         `${BASE_URL}/force-create-demo-users`,
         {
@@ -444,13 +370,10 @@ export class InventoryService {
       );
 
       const data = await handleResponse(response);
-      console.log("InventoryService: Force create demo users result:", data);
+  // ...existing code...
       return data;
     } catch (error) {
-      console.error(
-        "InventoryService: Error force creating demo users:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }
@@ -470,10 +393,7 @@ export class InventoryService {
       const data = await handleResponse(response);
       return data;
     } catch (error) {
-      console.error(
-        "InventoryService: Error debugging users:",
-        error,
-      );
+  // ...existing code...
       throw error;
     }
   }

@@ -24,13 +24,13 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
   const [initializingData, setInitializingData] = useState(false);
   const [forceCreating, setForceCreating] = useState(false);
 
-  // Login form state
+  // ...existing code...
   const [loginData, setLoginData] = useState<LoginCredentials>({
     email: '',
     password: '',
   });
 
-  // Register form state
+  // ...existing code...
   const [registerData, setRegisterData] = useState<RegisterData>({
     email: '',
     password: '',
@@ -38,7 +38,7 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
     role: 'employee',
   });
 
-  // Initialize sample data on component mount
+  // ...existing code...
   useEffect(() => {
     initializeSampleData();
   }, []);
@@ -48,13 +48,13 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
       setInitializingData(true);
       setError(null);
       
-      console.log('Initializing sample data...');
+  // ...existing code...
       await InventoryService.initSampleData();
-      console.log('Sample data initialization completed');
+  // ...existing code...
       
     } catch (error) {
       console.error('Error initializing sample data:', error);
-      // Don't show error for sample data initialization as it's not critical
+  // ...existing code...
     } finally {
       setInitializingData(false);
     }
@@ -66,15 +66,15 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
       setError(null);
       setSuccess(null);
       
-      console.log('Force creating demo users...');
+  // ...existing code...
       const result = await InventoryService.forceCreateDemoUsers();
       
-      console.log('Force create demo users result:', result);
+  // ...existing code...
       
       if (result.successful && result.successful > 0) {
         setSuccess(`Se crearon forzadamente ${result.successful} usuarios de demostración.`);
         
-        // Clear the form and suggest trying login again
+  // ...existing code...
         setTimeout(() => {
           setSuccess('Usuarios creados. Intenta iniciar sesión nuevamente.');
         }, 2000);
@@ -96,7 +96,7 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
     setSuccess(null);
     
     if (!loginData.email || !loginData.password) {
-      setError('Por favor completa todos los campos');
+  setError('Por favor completa todos los campos'); // ...existing code...
       return;
     }
 
@@ -112,7 +112,7 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
             err.message.includes('Invalid credentials') ||
             err.message.includes('Credenciales inválidas')) {
           
-          // Check if it's a demo user
+          // ...existing code...
           if (loginData.email === 'admin@tienda.com' || loginData.email === 'empleado@tienda.com') {
             errorMessage = 'Credenciales incorrectas. Los usuarios de demostración pueden no estar configurados.';
             showForceCreateButton = true;
@@ -133,9 +133,9 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
       
       setError(errorMessage);
       
-      // Auto-trigger force create for demo users if login failed
+  // ...existing code...
       if (showForceCreateButton && (loginData.email === 'admin@tienda.com' || loginData.email === 'empleado@tienda.com')) {
-        console.log('Auto-triggering force create for demo user');
+  // ...existing code...
         setTimeout(() => {
           forceCreateDemoUsers();
         }, 2000);
@@ -149,7 +149,7 @@ export function LoginForm({ onLogin, onRegister, isLoading }: LoginFormProps) {
     setSuccess(null);
     
     if (!registerData.email || !registerData.password || !registerData.name) {
-      setError('Por favor completa todos los campos');
+  setError('Por favor completa todos los campos'); // ...existing code...
       return;
     }
 

@@ -20,7 +20,7 @@ const getHeaders = (requireAuth = true) => {
     const session = getCurrentSession();
     if (session?.accessToken) {
       headers['Authorization'] = `Bearer ${session.accessToken}`;
-      console.log('AuthService: Using session token for request');
+  // ...existing code...
     } else {
       console.warn('AuthService: No valid session, using anonymous key');
       headers['Authorization'] = `Bearer ${publicAnonKey}`;
@@ -39,25 +39,25 @@ const getCurrentSession = (): AuthSession | null => {
     
     const session: AuthSession = JSON.parse(sessionData);
     
-    // Validate session structure
+  // ...existing code...
     if (!session.accessToken || !session.user) {
       console.warn('AuthService: Invalid session structure');
       localStorage.removeItem('inventory_session');
       return null;
     }
     
-    // Check if session is expired (with 30-minute grace period)
-    const gracePeriod = 30 * 60 * 1000; // 30 minutes
+  // ...existing code...
+  const gracePeriod = 30 * 60 * 1000; // ...existing code...
     if (session.expiresAt && Date.now() > (session.expiresAt + gracePeriod)) {
-      console.log('AuthService: Session expired, clearing');
+  // ...existing code...
       localStorage.removeItem('inventory_session');
       return null;
     }
     
-    // If session is close to expiring (within 1 hour), try to refresh it
+  // ...existing code...
     const oneHour = 60 * 60 * 1000;
     if (session.expiresAt && Date.now() > (session.expiresAt - oneHour)) {
-      console.log('AuthService: Session approaching expiration, will refresh on next API call');
+  // ...existing code...
     }
     
     return session;
@@ -115,7 +115,7 @@ export class AuthService {
 
   static async login(credentials: LoginCredentials): Promise<AuthSession> {
     try {
-      console.log('AuthService: Attempting login for:', credentials.email);
+  // ...existing code...
       
       const response = await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
@@ -128,17 +128,17 @@ export class AuthService {
       const session: AuthSession = {
         user: data.user,
         accessToken: data.accessToken,
-        expiresAt: Date.now() + (8 * 60 * 60 * 1000), // 8 hours from now
+  expiresAt: Date.now() + (8 * 60 * 60 * 1000), // ...existing code...
       };
 
-      // Store session in localStorage
+  // ...existing code...
       localStorage.setItem(this.SESSION_KEY, JSON.stringify(session));
-      console.log('AuthService: Login successful, session stored');
+  // ...existing code...
       
       return session;
     } catch (error) {
       console.error('AuthService: Error during login:', error);
-      // Clear any existing session on login failure
+  // ...existing code...
       this.clearSession();
       throw error;
     }
@@ -146,7 +146,7 @@ export class AuthService {
 
   static async register(userData: RegisterData): Promise<AuthSession> {
     try {
-      console.log('AuthService: Attempting registration for:', userData.email);
+  // ...existing code...
       
       const response = await fetch(`${BASE_URL}/auth/register`, {
         method: 'POST',
@@ -159,12 +159,12 @@ export class AuthService {
       const session: AuthSession = {
         user: data.user,
         accessToken: data.accessToken,
-        expiresAt: Date.now() + (8 * 60 * 60 * 1000), // 8 hours from now
+  expiresAt: Date.now() + (8 * 60 * 60 * 1000), // ...existing code...
       };
 
-      // Store session in localStorage
+  // ...existing code...
       localStorage.setItem(this.SESSION_KEY, JSON.stringify(session));
-      console.log('AuthService: Registration successful, session stored');
+  // ...existing code...
       
       return session;
     } catch (error) {
@@ -175,7 +175,7 @@ export class AuthService {
 
   static async verifyToken(accessToken: string): Promise<User> {
     try {
-      console.log('AuthService: Verifying token...');
+  // ...existing code...
       
       const response = await fetch(`${BASE_URL}/auth/verify`, {
         method: 'GET',
@@ -186,11 +186,11 @@ export class AuthService {
       });
 
       const data = await handleResponse(response);
-      console.log('AuthService: Token verification successful');
+  // ...existing code...
       return data.user;
     } catch (error) {
       console.error('AuthService: Token verification failed:', error);
-      // Only clear session if it's definitely an auth error, not a network error
+  // ...existing code...
       if (error.message.includes('Sesión expirada') || error.message.includes('Credenciales inválidas')) {
         this.clearSession();
       }
@@ -198,10 +198,10 @@ export class AuthService {
     }
   }
 
-  // User management methods (admin only)
+  // ...existing code...
   static async getUsers(): Promise<User[]> {
     try {
-      console.log('AuthService: Fetching users...');
+  // ...existing code...
       
       const response = await fetch(`${BASE_URL}/users`, {
         method: 'GET',
@@ -209,7 +209,7 @@ export class AuthService {
       });
 
       const data = await handleResponse(response);
-      console.log('AuthService: Users fetched successfully');
+  // ...existing code...
       return data.users;
     } catch (error) {
       console.error('AuthService: Error fetching users:', error);
@@ -219,7 +219,7 @@ export class AuthService {
 
   static async createUser(userData: RegisterData): Promise<User> {
     try {
-      console.log('AuthService: Creating user:', userData.email);
+  // ...existing code...
       
       const response = await fetch(`${BASE_URL}/users`, {
         method: 'POST',
@@ -228,7 +228,7 @@ export class AuthService {
       });
 
       const data = await handleResponse(response);
-      console.log('AuthService: User created successfully');
+  // ...existing code...
       return data.user;
     } catch (error) {
       console.error('AuthService: Error creating user:', error);
@@ -238,7 +238,7 @@ export class AuthService {
 
   static async updateUser(userId: string, updates: Partial<RegisterData>): Promise<User> {
     try {
-      console.log('AuthService: Updating user:', userId);
+  // ...existing code...
       
       const response = await fetch(`${BASE_URL}/users/${userId}`, {
         method: 'PUT',
@@ -247,7 +247,7 @@ export class AuthService {
       });
 
       const data = await handleResponse(response);
-      console.log('AuthService: User updated successfully');
+  // ...existing code...
       return data.user;
     } catch (error) {
       console.error('AuthService: Error updating user:', error);
@@ -257,7 +257,7 @@ export class AuthService {
 
   static async deleteUser(userId: string): Promise<void> {
     try {
-      console.log('AuthService: Deleting user:', userId);
+  // ...existing code...
       
       const response = await fetch(`${BASE_URL}/users/${userId}`, {
         method: 'DELETE',
@@ -265,7 +265,7 @@ export class AuthService {
       });
 
       await handleResponse(response);
-      console.log('AuthService: User deleted successfully');
+  // ...existing code...
     } catch (error) {
       console.error('AuthService: Error deleting user:', error);
       throw error;
@@ -277,28 +277,28 @@ export class AuthService {
   }
 
   static logout(): void {
-    console.log('AuthService: Logging out, clearing session');
+  // ...existing code...
     this.clearSession();
   }
 
   private static clearSession(): void {
     localStorage.removeItem(this.SESSION_KEY);
-    console.log('AuthService: Session cleared from localStorage');
+  // ...existing code...
   }
 
-  // Helper method to check if current session is valid
+  // ...existing code...
   static isAuthenticated(): boolean {
     const session = this.getCurrentSession();
     return session !== null && !!session.accessToken;
   }
 
-  // Helper method to get current user
+  // ...existing code...
   static getCurrentUser(): User | null {
     const session = this.getCurrentSession();
     return session?.user || null;
   }
 
-  // Method to refresh session by verifying current token
+  // ...existing code...
   static async refreshSession(): Promise<AuthSession | null> {
     try {
       const currentSession = this.getCurrentSession();
@@ -308,15 +308,15 @@ export class AuthService {
 
       const user = await this.verifyToken(currentSession.accessToken);
       
-      // Update session with fresh expiry
+  // ...existing code...
       const refreshedSession: AuthSession = {
         ...currentSession,
         user,
-        expiresAt: Date.now() + (8 * 60 * 60 * 1000), // 8 hours from now
+  expiresAt: Date.now() + (8 * 60 * 60 * 1000), // ...existing code...
       };
 
       localStorage.setItem(this.SESSION_KEY, JSON.stringify(refreshedSession));
-      console.log('AuthService: Session refreshed successfully');
+  // ...existing code...
       
       return refreshedSession;
     } catch (error) {
@@ -326,7 +326,7 @@ export class AuthService {
     }
   }
 
-  // Method to extend session without verification (for active users)
+  // ...existing code...
   static extendSession(): boolean {
     try {
       const currentSession = this.getCurrentSession();
@@ -334,15 +334,15 @@ export class AuthService {
         return false;
       }
 
-      // Only extend if session is still valid
+  // ...existing code...
       if (Date.now() < currentSession.expiresAt!) {
         const extendedSession: AuthSession = {
           ...currentSession,
-          expiresAt: Date.now() + (8 * 60 * 60 * 1000), // 8 hours from now
+          expiresAt: Date.now() + (8 * 60 * 60 * 1000), // ...existing code...
         };
 
         localStorage.setItem(this.SESSION_KEY, JSON.stringify(extendedSession));
-        console.log('AuthService: Session extended successfully');
+  // ...existing code...
         return true;
       }
 
@@ -353,7 +353,7 @@ export class AuthService {
     }
   }
 
-  // Check if session needs refresh (within 2 hours of expiry)
+  // ...existing code...
   static sessionNeedsRefresh(): boolean {
     const session = this.getCurrentSession();
     if (!session || !session.expiresAt) return false;

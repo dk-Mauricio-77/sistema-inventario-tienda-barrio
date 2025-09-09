@@ -32,24 +32,24 @@ export function useAuthProvider() {
     initializeAuth();
   }, []);
 
-  // Auto-extend session on user activity
+  // ...existing code...
   useEffect(() => {
     if (!user) return;
 
     const handleUserActivity = () => {
-      // Extend session if user is active and session exists
+  // ...existing code...
       if (AuthService.getCurrentSession()) {
         AuthService.extendSession();
       }
     };
 
-    // Listen for user activity
+  // ...existing code...
     const events = ['mousedown', 'keydown', 'scroll', 'click'];
     let timeoutId: NodeJS.Timeout;
 
     const throttledActivity = () => {
       clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleUserActivity, 5 * 60 * 1000); // Every 5 minutes max
+  timeoutId = setTimeout(handleUserActivity, 5 * 60 * 1000); // ...existing code...
     };
 
     events.forEach(event => {
@@ -70,25 +70,25 @@ export function useAuthProvider() {
       const session = AuthService.getCurrentSession();
       
       if (session) {
-        console.log('useAuth: Found session in localStorage for:', session.user.email);
+  // ...existing code...
         
-        // Check if session needs refresh
+  // ...existing code...
         if (AuthService.sessionNeedsRefresh()) {
-          console.log('useAuth: Session needs refresh, attempting refresh...');
+          // ...existing code...
           try {
             const refreshedSession = await AuthService.refreshSession();
             if (refreshedSession) {
-              console.log('useAuth: Session refreshed successfully');
+              // ...existing code...
               setUser(refreshedSession.user);
             } else {
-              console.log('useAuth: Session refresh failed, clearing session');
+              // ...existing code...
               setUser(null);
             }
           } catch (refreshError) {
             console.warn('useAuth: Session refresh failed:', refreshError.message);
-            // Try to use existing session if refresh fails due to network issues
+            // ...existing code...
             if (refreshError.message.includes('servidor') || refreshError.message.includes('conexión')) {
-              console.log('useAuth: Using existing session despite refresh failure');
+              // ...existing code...
               setUser(session.user);
             } else {
               AuthService.logout();
@@ -96,13 +96,13 @@ export function useAuthProvider() {
             }
           }
         } else {
-          // Session is still valid, extend it
-          console.log('useAuth: Session is valid, extending expiration');
+          // ...existing code...
+          // ...existing code...
           AuthService.extendSession();
           setUser(session.user);
         }
       } else {
-        console.log('useAuth: No session found in localStorage');
+  // ...existing code...
         setUser(null);
       }
     } catch (error) {
@@ -115,9 +115,9 @@ export function useAuthProvider() {
 
   const login = async (credentials: LoginCredentials) => {
     try {
-      console.log('useAuth: Attempting login for:', credentials.email);
+  // ...existing code...
       const session = await AuthService.login(credentials);
-      console.log('useAuth: Login successful, setting user:', session.user.email);
+  // ...existing code...
       setUser(session.user);
     } catch (error) {
       console.error('useAuth: Login failed:', error);
@@ -128,9 +128,9 @@ export function useAuthProvider() {
 
   const register = async (userData: RegisterData) => {
     try {
-      console.log('useAuth: Attempting registration for:', userData.email);
+  // ...existing code...
       const session = await AuthService.register(userData);
-      console.log('useAuth: Registration successful, setting user:', session.user.email);
+  // ...existing code...
       setUser(session.user);
     } catch (error) {
       console.error('useAuth: Registration failed:', error);
@@ -140,16 +140,16 @@ export function useAuthProvider() {
   };
 
   const logout = () => {
-    console.log('useAuth: Logging out user');
+  // ...existing code...
     AuthService.logout();
     setUser(null);
-    // Force a reload to clear any cached data
+  // ...existing code...
     window.location.reload();
   };
 
   const hasPermission = (action: string, resource: string): boolean => {
     if (!user) {
-      console.log('useAuth: Permission check failed - no user');
+  // ...existing code...
       return false;
     }
     
@@ -158,26 +158,26 @@ export function useAuthProvider() {
       permission.action === action && permission.resource === resource
     );
     
-    console.log(`useAuth: Permission check - ${user.role} can ${action} ${resource}: ${hasPermission}`);
+  // ...existing code...
     return hasPermission;
   };
 
   const isAdmin = (): boolean => {
     const adminStatus = user?.role === 'admin';
-    console.log('useAuth: Admin check:', adminStatus);
+  // ...existing code...
     return adminStatus;
   };
 
   const refreshUser = async () => {
     try {
-      console.log('useAuth: Refreshing user data');
+  // ...existing code...
       const session = AuthService.getCurrentSession();
       if (session) {
         const userData = await AuthService.verifyToken(session.accessToken);
-        console.log('useAuth: User data refreshed');
+  // ...existing code...
         setUser(userData);
       } else {
-        console.log('useAuth: No session to refresh');
+  // ...existing code...
         logout();
       }
     } catch (error) {

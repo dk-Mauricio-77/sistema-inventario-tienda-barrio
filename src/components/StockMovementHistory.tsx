@@ -55,7 +55,7 @@ export function StockMovementHistory({ onBack, products }: StockMovementHistoryP
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Filtros
+  // ...existing code...
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterProduct, setFilterProduct] = useState<string>('all');
@@ -91,7 +91,7 @@ export function StockMovementHistory({ onBack, products }: StockMovementHistoryP
   const applyFilters = () => {
     let filtered = [...movements];
 
-    // Filtrar por término de búsqueda
+  // ...existing code...
     if (searchTerm) {
       filtered = filtered.filter(movement =>
         movement.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -100,17 +100,17 @@ export function StockMovementHistory({ onBack, products }: StockMovementHistoryP
       );
     }
 
-    // Filtrar por tipo
+  // ...existing code...
     if (filterType !== 'all') {
       filtered = filtered.filter(movement => movement.type === filterType);
     }
 
-    // Filtrar por producto
+  // ...existing code...
     if (filterProduct !== 'all') {
       filtered = filtered.filter(movement => movement.productId === filterProduct);
     }
 
-    // Filtrar por período
+  // ...existing code...
     if (filterPeriod !== 'all') {
       const now = new Date();
       let startDate: Date;

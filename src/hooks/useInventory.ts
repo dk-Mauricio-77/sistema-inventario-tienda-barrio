@@ -25,9 +25,9 @@ export function useInventory(shouldLoad: boolean = true) {
     updateOfflineStock,
   } = useOfflineMode();
 
-  const MAX_CONNECTION_ATTEMPTS = 2; // Reduced from 3
+  const MAX_CONNECTION_ATTEMPTS = 2; // ...existing code...
 
-  // Calculate stats
+  // ...existing code...
   const currentProducts = isOffline ? offlineProducts : products;
   const stats: InventoryStats = {
     totalProducts: currentProducts.length,
@@ -55,14 +55,14 @@ export function useInventory(shouldLoad: boolean = true) {
       setConnectionAttempts(prev => prev + 1);
       
       if (connectionAttempts >= MAX_CONNECTION_ATTEMPTS - 1) {
-        console.log('Max connection attempts reached, enabling offline mode');
+  // ...existing code...
         setError('Sin conexión al servidor. Activando modo offline.');
         enableOfflineMode();
         setLoading(false);
         return;
       } else {
         setError(`Error de conexión (${connectionAttempts + 1}/${MAX_CONNECTION_ATTEMPTS}). Activando modo offline...`);
-        // Auto-enable offline mode after attempts
+  // ...existing code...
         setTimeout(() => {
           enableOfflineMode();
           setError('Modo offline activado automáticamente.');
@@ -76,9 +76,9 @@ export function useInventory(shouldLoad: boolean = true) {
   }, [connectionAttempts, enableOfflineMode]);
 
   const loadData = useCallback(async (showLoadingState = true) => {
-    // Don't load if not authenticated, offline, or shouldLoad is false
+  // ...existing code...
     if (!isAuthenticated || isOffline || !shouldLoad) {
-      console.log('Skipping data load - conditions not met:', { isAuthenticated, isOffline, shouldLoad });
+  // ...existing code...
       setLoading(false);
       setError(null);
       return;
@@ -90,9 +90,9 @@ export function useInventory(shouldLoad: boolean = true) {
       }
       setError(null);
 
-      console.log('Loading inventory data...');
+  // ...existing code...
       
-      // Load categories first (lightweight), then products
+  // ...existing code...
       const categoriesData = await Promise.race([
         InventoryService.getCategories(),
         new Promise<never>((_, reject) =>
@@ -101,9 +101,9 @@ export function useInventory(shouldLoad: boolean = true) {
       ]);
 
       setCategories(categoriesData);
-      console.log('Categories loaded:', categoriesData.length);
+  // ...existing code...
 
-      // Then load products with longer timeout
+  // ...existing code...
       const productsData = await Promise.race([
         InventoryService.getProducts(),
         new Promise<never>((_, reject) =>
@@ -112,10 +112,10 @@ export function useInventory(shouldLoad: boolean = true) {
       ]);
 
       setProducts(productsData);
-      setConnectionAttempts(0); // Reset on successful connection
+  setConnectionAttempts(0); // ...existing code...
       setHasInitialized(true);
       
-      console.log('All inventory data loaded successfully:', {
+  // ...existing code...
         products: productsData.length,
         categories: categoriesData.length
       });
@@ -128,11 +128,11 @@ export function useInventory(shouldLoad: boolean = true) {
     }
   }, [isAuthenticated, isOffline, shouldLoad, handleConnectionError]);
 
-  // Only load data when conditions are met
+  // ...existing code...
   useEffect(() => {
     if (isAuthenticated && !hasInitialized && !isOffline && shouldLoad) {
-      console.log('Starting initial data load...');
-      // Add a small delay to prevent race conditions
+  // ...existing code...
+  // ...existing code...
       const timer = setTimeout(() => {
         loadData(true);
       }, 200);

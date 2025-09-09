@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Product, Category } from '../types/inventory';
 
-// Sample data for offline mode
+// ...existing code...
 const SAMPLE_CATEGORIES: Category[] = [
   { id: '1', name: 'Bebidas', color: '#3B82F6' },
   { id: '2', name: 'Snacks', color: '#EF4444' },
@@ -79,7 +79,7 @@ export function useOfflineMode() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  // Initialize offline data
+  // ...existing code...
   useEffect(() => {
     const offlineMode = localStorage.getItem(STORAGE_KEYS.OFFLINE_MODE) === 'true';
     
@@ -104,7 +104,7 @@ export function useOfflineMode() {
   };
 
   const enableOfflineMode = () => {
-    console.log('Enabling offline mode with sample data');
+  // ...existing code...
     localStorage.setItem(STORAGE_KEYS.OFFLINE_MODE, 'true');
     localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(SAMPLE_PRODUCTS));
     localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(SAMPLE_CATEGORIES));
@@ -115,7 +115,7 @@ export function useOfflineMode() {
   };
 
   const disableOfflineMode = () => {
-    console.log('Disabling offline mode');
+  // ...existing code...
     localStorage.removeItem(STORAGE_KEYS.OFFLINE_MODE);
     localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
     localStorage.removeItem(STORAGE_KEYS.CATEGORIES);

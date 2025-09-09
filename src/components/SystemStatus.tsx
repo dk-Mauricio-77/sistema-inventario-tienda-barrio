@@ -42,10 +42,10 @@ export function SystemStatus({ onRetry }: SystemStatusProps) {
 
   const checkSystemStatus = async () => {
     setIsRefreshing(true);
-    console.log('SystemStatus: Starting system health check...');
+  // ...existing code...
 
     try {
-      // Check server health
+  // ...existing code...
       setStatus(prev => ({ ...prev, server: 'checking' }));
       const serverHealth = await InventoryService.checkHealth();
       setStatus(prev => ({ 
@@ -54,21 +54,21 @@ export function SystemStatus({ onRetry }: SystemStatusProps) {
       }));
 
       if (serverHealth) {
-        // Check users
+  // ...existing code...
         setStatus(prev => ({ ...prev, users: 'checking' }));
         try {
-          const userDebug = await InventoryService.debugUsers();
+          const userDebug = await InventoryService.debugUsers(); // ...existing code...
           setStatus(prev => ({ 
             ...prev, 
-            users: userDebug.kvUsers > 0 ? 'ready' : 'missing' 
+            users: userDebug.kvUsers > 0 ? 'ready' : 'missing' // ...existing code...
           }));
-          setDetails(prev => ({ ...prev, users: userDebug }));
+          setDetails(prev => ({ ...prev, users: userDebug })); // ...existing code...
         } catch (error) {
           console.error('SystemStatus: Users check failed:', error);
           setStatus(prev => ({ ...prev, users: 'error' }));
         }
 
-        // Check products
+  // ...existing code...
         setStatus(prev => ({ ...prev, products: 'checking' }));
         try {
           const products = await InventoryService.getProducts();
@@ -106,9 +106,9 @@ export function SystemStatus({ onRetry }: SystemStatusProps) {
 
   const createDemoUsers = async () => {
     try {
-      console.log('SystemStatus: Creating demo users...');
+  // ...existing code...
       await InventoryService.createDemoUsers();
-      await checkSystemStatus(); // Refresh status after creating users
+  await checkSystemStatus(); // ...existing code...
     } catch (error) {
       console.error('SystemStatus: Error creating demo users:', error);
     }
@@ -116,9 +116,9 @@ export function SystemStatus({ onRetry }: SystemStatusProps) {
 
   const initSampleData = async () => {
     try {
-      console.log('SystemStatus: Initializing sample data...');
+  // ...existing code...
       await InventoryService.initSampleData();
-      await checkSystemStatus(); // Refresh status after initializing data
+  await checkSystemStatus(); // ...existing code...
     } catch (error) {
       console.error('SystemStatus: Error initializing sample data:', error);
     }
@@ -360,11 +360,11 @@ export function SystemStatus({ onRetry }: SystemStatusProps) {
           )}
         </div>
 
-        {/* Debug Information */}
+  {/* ...existing code... */}
         {details && (
           <details className="text-xs text-gray-500">
             <summary className="cursor-pointer hover:text-gray-700">
-              Información de debug
+              {/* ...existing code... */}
             </summary>
             <pre className="mt-2 p-2 bg-gray-50 rounded text-xs overflow-auto">
               {JSON.stringify(details, null, 2)}
