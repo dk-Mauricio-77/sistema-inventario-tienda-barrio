@@ -15,34 +15,15 @@ Permite llevar el control de entradas, salidas, stock, historial de movimientos 
 ✅ Generación de reportes en PDF con inventario actualizado.
 ✅ Usabilidad mejorada con mensajes claros y confirmaciones.
 
-🛠️ Tecnologías utilizadas
+📊 Metodología de desarrollo
 
-Frontend: HTML, CSS, JavaScript (o el framework que uses, ej. React).
+Se utilizó Scrum con Sprints semanales.
 
-Backend: Node.js / PHP / Python (especificar lo que usaste).
+Las historias de usuario y tareas fueron gestionadas en Trello.
 
-Base de datos: MySQL / PostgreSQL / SQLite.
+Las pruebas funcionales y de rendimiento se realizaron con Postman y JMeter.
 
-Control de versiones: Git + GitHub.
-
-Herramientas de QA: Postman, JMeter, Trello para gestión ágil.
-
-📂 Estructura del Proyecto (ejemplo)
-📦 sistema-inventario
- ┣ 📂 src
- ┃ ┣ 📂 controllers
- ┃ ┣ 📂 models
- ┃ ┣ 📂 routes
- ┃ ┗ 📂 views
- ┣ 📂 database
- ┃ ┗ schema.sql
- ┣ 📂 public
- ┃ ┣ 📂 css
- ┃ ┗ 📂 js
- ┣ .gitignore
- ┣ package.json (si es Node.js)
- ┣ README.md
-
+Se documentaron Casos de Prueba y Bug Reports en formato QA (Excel).
 ⚙️ Instalación y ejecución
 
 Clonar el repositorio:
@@ -71,12 +52,5 @@ Abrir en el navegador:
 
 http://localhost:3000
 
-📊 Metodología de desarrollo
 
-Se utilizó Scrum con Sprints semanales.
 
-Las historias de usuario y tareas fueron gestionadas en Trello.
-
-Las pruebas funcionales y de rendimiento se realizaron con Postman y JMeter.
-
-Se documentaron Casos de Prueba y Bug Reports en formato QA (Excel).
