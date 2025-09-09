@@ -1,0 +1,9 @@
+{
+  "name": "inventory-system",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2"
+  }
+}

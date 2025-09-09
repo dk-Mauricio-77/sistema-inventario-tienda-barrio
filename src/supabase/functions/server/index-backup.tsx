@@ -1,0 +1,1 @@
+# Archivo de respaldo - eliminado para mantener limpio el directorio
